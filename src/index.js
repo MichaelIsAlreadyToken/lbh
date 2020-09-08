@@ -26,6 +26,7 @@ async function main () {
   let keyObj
   const data = await fs.readJson(keyPath, { throws: false })
   if (data && data.APIKey) {
+    console.log('keypath',keyPath)
     keyObj = data
   } else {
     const answers = await question()
@@ -36,20 +37,21 @@ async function main () {
   tinify.key = keyObj.APIKey
 
   // 创建目录
-  const pathTmp = pwdPath + '/compressed/'
-  await fs.emptyDir(pathTmp)
-
+  // const pathTmp = pwdPath + '/compressed/'
+  // await fs.emptyDir(pathTmp)
+//"APIKey2":"399pdSylYGJlBBcN3rwl0QpRZkv9px4T"
+//"APIKey":fnRzjdvL9GpChvyWpCCPBbyyCC6hd2nr
   const spinner = ora({ text: '', color: 'green' }).start()
 
   // 获取图片文件
-  const files = await findFile(pwdPath)
+  const files = findFile(pwdPath)
+  // const files = findFile('/Users/liubohao/Downloads/image')
   const images = files.filter((file) => {
     const ext = path.extname(file)
-    return ['.png', '.jpg', '.jpeg'].indexOf(ext) > -1
+    return ['.png', '.jpg', '.jpeg','.PNG','.JPEG','.JPG'].indexOf(ext) > -1
   })
-
+  // return
   let counter = images.length
-
   if (images.length) {
     spinner.info('欢迎使用tiny压缩图片! 查找到' + images.length + '张图片...')
   }
@@ -60,8 +62,12 @@ async function main () {
 
     try {
       const basename = path.basename(img)
+      const dirname = path.dirname(img)
       const source = await tinify.fromFile(img)
-      await source.toFile(pathTmp + basename)
+      
+      console.log('dirname=',dirname)
+      await source.toFile(dirname+'/' + basename)
+      // await source.toFile(basename)
     } catch (e) {
       console.error(e)
     }
