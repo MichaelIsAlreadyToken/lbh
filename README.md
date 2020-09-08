@@ -15,3 +15,5 @@ npm install -g tiny-images
 tiny  # 压缩当前文件夹下的所有图片文件  并保存在compressed目录下
 
 ```
+
+/usr/local/lib/node_modules/tiny-images/src/index.js

@@ -16,16 +16,11 @@ const keyPath = process.env.HOME + '/.tinypng'
 const pwdPath = process.env.PWD
 
 async function main () {
-  shell.exec('clear')
-
-  const startTimeStamp = Date.now()
-
   // 获取key
   await fs.ensureFile(keyPath)
-
   let keyObj
   const data = await fs.readJson(keyPath, { throws: false })
-  if (data && data.APIKey) {
+  if (0) {
     console.log('keypath',keyPath)
     keyObj = data
   } else {
@@ -33,8 +28,15 @@ async function main () {
     await fs.outputJson(keyPath, answers)
     keyObj = answers
   }
+  compress(keyObj.APIKey)
 
-  tinify.key = keyObj.APIKey
+}
+
+//压缩方法
+async function compress (APIKey){
+  shell.exec('clear')
+  const startTimeStamp = Date.now()
+  tinify.key = APIKey
 
   // 创建目录
   // const pathTmp = pwdPath + '/compressed/'
